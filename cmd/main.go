@@ -21,13 +21,14 @@ var r *gin.Engine
 // 初始化
 func init() {
 	r = gin.New()
+
 	// 加载日志中间件
 	r.Use(
 		middleware.HandlerLoggerToFile(),  // log
 		middleware.HandlerLoadConfig(),    // 配置
 		middleware.HandlerException,       // 全局异常,返回json
-		middleware.OtherHeaderInterceptor, // 检测header
-		middleware.HandlerJwt,             // jwt
+		//middleware.OtherHeaderInterceptor, // 检测header
+		//middleware.HandlerJwt,             // jwt
 	)
 	// 初始化私钥证书
 	config.CertInit()

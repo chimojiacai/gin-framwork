@@ -6,6 +6,7 @@ import (
 	"study_gin/common/constant"
 	"study_gin/common/library/jwt"
 	"study_gin/common/library/response"
+	"study_gin/params"
 )
 
 /*
@@ -26,9 +27,14 @@ func GetUserInfo(c *gin.Context) {
 	//}
 	//
 	//response.Success(c, id+name)
-	uid, _ := c.Get("uid")
+	info := params.GetUserInfo{}
+	if err := c.ShouldBindQuery(&info); err != nil {
+		response.Error(c, err.Error())
+		return
+	}
 	m := make(map[string]interface{})
-	m["uid"] = uid
+	m["user_id"] = info.UserId
+	m["name"] = info.Name
 	response.Success(c, m)
 }
 

@@ -17,7 +17,8 @@ type PassPATH map[string]interface{}
 
 //token白名单
 var authPass = PassPATH{
-	"/user/create_token":             nil,
+	"/ping":              nil,
+	"/user/create_token": nil,
 }
 
 //Description : 判断请求路径是否需要放行
