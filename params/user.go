@@ -8,5 +8,5 @@ package params
 */
 type GetUserInfo struct {
 	UserId int64  `form:"user_id" binding:"required,intValid"`
-	Name   string `form:"name" binding:"required,-"`
+	Name   string `form:"name" binding:"required"`
 }
