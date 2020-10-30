@@ -48,6 +48,7 @@ func init() {
 	// 初始化redis
 	config.RedisInit()
 
+	logrus.Printf("gin study start success!!!,host:[%s]", viper.GetString("web.address"))
 }
 
 func main() {

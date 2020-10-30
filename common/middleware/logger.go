@@ -2,7 +2,12 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/olivere/elastic/v7"
 	"github.com/sirupsen/logrus"
+	"github.com/spf13/cast"
+	"github.com/spf13/viper"
+	"gopkg.in/sohlich/elogrus.v7"
+	_ "gopkg.in/sohlich/elogrus.v7"
 	"path"
 	"runtime"
 	"strconv"
@@ -24,6 +29,26 @@ func HandlerLoggerToFile() gin.HandlerFunc {
 	logrus.SetReportCaller(true)
 	logrus.SetLevel(logrus.DebugLevel)
 	logrus.AddHook(logger.NewFileHook())
+
+	// 是否转发到es
+	// 如果es节点异常,会影响api接口性能.有延迟.todo 后面会兼容节点异常
+	esMap := viper.GetStringMap("es")
+	if _, ok := esMap["open"]; ok {
+		if esMap["open"] == true {
+			// 转发到es
+			client, err := elastic.NewClient(elastic.SetSniff(false),
+				elastic.SetURL(cast.ToString(esMap["hostport"])))
+			if err != nil {
+				logrus.Fatalf("启动连接es失败:[%v]", err)
+			}
+			// es hook
+			hookEs, err := elogrus.NewElasticHook(client, cast.ToString(esMap["localhost"]), logrus.DebugLevel, cast.ToString(esMap["index"]))
+			if err != nil {
+				logrus.Fatal("es hook启动失败:[%v]", err)
+			}
+			logrus.AddHook(hookEs)
+		}
+	}
 
 	return func(c *gin.Context) {
 		// 开始时间

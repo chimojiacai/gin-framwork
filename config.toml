@@ -4,7 +4,7 @@ app_name = "gin study"
 log_level = "DEBUG"
 [web]
 address = "127.0.0.1:3000"
-certpath = "D:/make-money/go-mod/src/private.pem" #私钥证书
+certpath = "./private.pem" #私钥证书,为了生成token
 [mysql]
 dnsapp = "root:root@tcp(127.0.0.1:3306)/ucg?charset=utf8mb4"
 debug = true  #true为全局打印sql
@@ -14,4 +14,9 @@ maxconnmaxlifetime = 3000 #设置链接可以重用时长
 
 [redis]
 ip = "127.0.0.1"
-port = 6479
+port = 6379
+[es]
+open = true # 是否开启日志转发es
+localhost = "127.0.0.1" # 部署机器ip,可为空
+hostport = "http://127.0.0.1:9200" # es节点
+index = "gin_log" # 日志索引
