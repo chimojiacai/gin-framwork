@@ -13,9 +13,9 @@ import (
 	"github.com/spf13/viper"
 )
 
-func HandlerLoadConfig() gin.HandlerFunc{
+func HandlerLoadConfig(conf string) gin.HandlerFunc {
 	// 获取配置文件
-	viper.SetConfigName("config")
+	viper.SetConfigName(conf)
 	viper.SetConfigType("toml") // 文件类型
 	viper.AddConfigPath(".")    // 搜索路径
 	err := viper.ReadInConfig()
@@ -25,6 +25,6 @@ func HandlerLoadConfig() gin.HandlerFunc{
 	// 热加载配置
 	viper.WatchConfig()
 	return func(context *gin.Context) {
-		
+
 	}
 }

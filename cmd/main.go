@@ -9,6 +9,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
@@ -28,14 +29,21 @@ var srv *http.Server
 
 // 初始化
 func init() {
+	conf := "config.dev" // 默认为开发配置文件
+	// 读取配置环境
+	confList := flag.Args()
+	if len(confList) > 0 {
+		conf = "config"
+	}
+
 	r = gin.New() // 不用自带的日志系统
 	// 要是使用gin自带的日志系统, 使用 r = gin.Default()
 
 	// 加载日志中间件
 	r.Use(
-		middleware.HandlerLoggerToFile(), // log
-		middleware.HandlerLoadConfig(),   // 配置
-		middleware.HandlerException,      // 全局异常,返回json
+		middleware.HandlerLoggerToFile(),   // log
+		middleware.HandlerLoadConfig(conf), // 配置
+		middleware.HandlerException,        // 全局异常,返回json
 		//middleware.OtherHeaderInterceptor, // 检测header
 		//middleware.HandlerJwt,             // jwt
 	)
