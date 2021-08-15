@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
 	"study_gin/common/constant"
@@ -48,4 +49,11 @@ func CreateToken(c *gin.Context) {
 	m := make(map[string]string)
 	m["token"] = token
 	response.Success(c, m)
+}
+
+func Post(ctx *gin.Context) {
+	//json := make(map[string]interface{}) //注意该结构接受的内容
+	//ctx.Bind(&json)
+	//fmt.Println(ctx.Request.PostFormValue("source"))
+	fmt.Println(ctx.Request.PostForm)
 }

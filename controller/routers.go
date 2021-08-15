@@ -20,7 +20,7 @@ import (
 func InitRoutes(r *gin.Engine) {
 	// 参数校验
 	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
-		_ = v.RegisterValidation("intValid", params.IntValid)       // tag要小写
+		_ = v.RegisterValidation("intValid", params.IntValid) // tag要小写
 		//_ = v.RegisterValidation("stringValid", params.StringValid) // tag要小写
 	}
 
@@ -33,4 +33,5 @@ func InitRoutes(r *gin.Engine) {
 	user := r.Group("/user")
 	user.GET("/get_user", GetUserInfo)
 	user.GET("/create_token", CreateToken)
+	user.POST("/test", Post)
 }

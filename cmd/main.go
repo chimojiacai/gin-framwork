@@ -10,12 +10,14 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"net/http"
 	"os"
 	"os/signal"
+
 	"study_gin/common/config"
 	"study_gin/common/middleware"
 	"study_gin/controller"
@@ -29,6 +31,8 @@ var srv *http.Server
 
 // 初始化
 func init() {
+	nacosConfig := config.NewNacosConfig()
+	fmt.Println(nacosConfig)
 	conf := "config.dev" // 默认为开发配置文件
 	// 读取配置环境
 	confList := flag.Args()
@@ -50,11 +54,11 @@ func init() {
 	gin.SetMode(gin.ReleaseMode) // 不实用gin打印控制台
 
 	// 初始化私钥证书
-	config.CertInit()
+	//config.CertInit()
 	// 初始化mysql
 	config.MysqlInit() // gorm
 	// 初始化redis
-	config.RedisInit()
+	//config.RedisInit()
 
 	logrus.Printf("gin study start success!!!,host:[%s]", viper.GetString("web.address"))
 }
